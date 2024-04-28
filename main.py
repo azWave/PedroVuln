@@ -206,6 +206,10 @@ class DiscordBot(commands.Bot):
             raise error
 
 
+print(
+    load_dotenv(os.path.dirname(__file__) + "/env/.env"),
+    os.path.dirname(__file__) + "\\env\\.env",
+)
 load_dotenv(os.path.dirname(__file__) + "/env/.env")
 bot = DiscordBot()
 bot.run(os.getenv("Token"))
