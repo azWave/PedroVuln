@@ -18,7 +18,7 @@ class Points(commands.Cog, name="points"):
     ) -> None:
         if "pedromanager" in [r.name for r in context.author.roles]:
             sql = text(
-                f"INSERT INTO `PedroBot`.`Points` (`DiscordUser`, `GuildId`) VALUES ('{to.id}', '{context.guild.id}');"
+                f"INSERT INTO `PedroBase`.`Points` (`DiscordUser`, `GuildId`) VALUES ('{to.id}', '{context.guild.id}');"
             )
             try:
                 with self.bot.database.connect() as conn:
@@ -51,7 +51,7 @@ class Points(commands.Cog, name="points"):
         to: discord.User = commands.parameter(default=lambda ctx: ctx.author),
     ) -> None:
         sql = text(
-            f"SELECT * FROM PedroBot.Points WHERE (`DiscordUser` = '{to.id}') and (`GuildId` = '{context.guild.id}');"
+            f"SELECT * FROM PedroBase.Points WHERE (`DiscordUser` = '{to.id}') and (`GuildId` = '{context.guild.id}');"
         )
         try:
             with self.bot.database.connect() as conn:
@@ -83,7 +83,7 @@ class Points(commands.Cog, name="points"):
     ) -> None:
         if "pedromanager" in [r.name for r in context.author.roles]:
             sql = text(
-                f"UPDATE `PedroBot`.`Points` SET `PointsAmount` = '{amount}' WHERE (`DiscordUser` = '{to.id}') and (`GuildId` = '{context.guild.id}');"
+                f"UPDATE `PedroBase`.`Points` SET `PointsAmount` = '{amount}' WHERE (`DiscordUser` = '{to.id}') and (`GuildId` = '{context.guild.id}');"
             )
             try:
                 with self.bot.database.connect() as conn:
@@ -115,7 +115,7 @@ class Points(commands.Cog, name="points"):
     ) -> None:
         if "pedromanager" in [r.name for r in context.author.roles]:
             sql = text(
-                f"DELETE FROM `PedroBot`.`Points` WHERE (`DiscordUser` = '{to.id}') and (`GuildId` = '{context.guild.id}');"
+                f"DELETE FROM `PedroBase`.`Points` WHERE (`DiscordUser` = '{to.id}') and (`GuildId` = '{context.guild.id}');"
             )
             try:
                 with self.bot.database.connect() as conn:
@@ -145,7 +145,7 @@ class Points(commands.Cog, name="points"):
     async def gettop(self, context: Context, top: int = 3) -> None:
         top = max(min(20, top), 3)
         sql = text(
-            f"SELECT * FROM PedroBot.Points WHERE (`GuildId` = '{context.guild.id}') order by PointsAmount desc;"
+            f"SELECT * FROM PedroBase.Points WHERE (`GuildId` = '{context.guild.id}') order by PointsAmount desc;"
         )
         try:
             with self.bot.database.connect() as conn:

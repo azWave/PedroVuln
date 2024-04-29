@@ -44,7 +44,7 @@ class Challenges(commands.Cog, name="challenges"):
     )
     async def getchall(self, context: Context, name: str, page: int = 1) -> None:
         name = "%" if name == "all" else name
-        sql = text(f"SELECT * FROM PedroBot.Chall where ChallName like '{name}';")
+        sql = text(f"SELECT * FROM PedroBase.Chall where ChallName like '{name}';")
         try:
             with self.bot.database.connect() as conn:
                 result = conn.execute(sql).mappings().all()
@@ -96,7 +96,7 @@ class Challenges(commands.Cog, name="challenges"):
         if "pedromanager" in [r.name for r in context.author.roles]:
 
             sqlSelect = text(
-                f"SELECT ChallName , ChallAsk , ChallAnswer , ChallPoints , ChallAvailable FROM PedroBot.Chall where ChallAvailable = 1 and ChallName like '{name}';"
+                f"SELECT ChallName , ChallAsk , ChallAnswer , ChallPoints , ChallAvailable FROM PedroBase.Chall where ChallAvailable = 1 and ChallName like '{name}';"
             )
             try:
                 with self.bot.database.connect() as conn:
@@ -111,7 +111,7 @@ class Challenges(commands.Cog, name="challenges"):
                         ),
                     }
                     sqlUpdate = text(
-                        f"UPDATE `PedroBot`.`Chall` SET `ChallAsk` = '{json['ChallAsk']}', `ChallAnswer` = '{json['ChallAnswer']}', `ChallPoints` = '{json['ChallPoints']}', `ChallAvailable` = '{json['ChallAvailable']}' WHERE (`ChallName` = '{name}');"
+                        f"UPDATE `PedroBase`.`Chall` SET `ChallAsk` = '{json['ChallAsk']}', `ChallAnswer` = '{json['ChallAnswer']}', `ChallPoints` = '{json['ChallPoints']}', `ChallAvailable` = '{json['ChallAvailable']}' WHERE (`ChallName` = '{name}');"
                     )
                     conn.execute(sqlUpdate)
                     conn.commit()
@@ -140,7 +140,7 @@ class Challenges(commands.Cog, name="challenges"):
     async def delchall(self, context: Context, name: str) -> None:
         if "pedromanager" in [r.name for r in context.author.roles]:
             sql = text(
-                f"DELETE FROM `PedroBot`.`Chall` WHERE (`ChallName` = '{name}');"
+                f"DELETE FROM `PedroBase`.`Chall` WHERE (`ChallName` = '{name}');"
             )
             try:
                 with self.bot.database.connect() as conn:
@@ -167,7 +167,7 @@ class Challenges(commands.Cog, name="challenges"):
     @commands.hybrid_command(name="answerchall", description="answer to a challenge")
     async def answerchall(self, context: Context, name: str, answer: str) -> None:
         sqlSelectC = text(
-            f"SELECT ChallName , ChallAsk , ChallAnswer , ChallPoints , ChallAvailable FROM PedroBot.Chall where ChallAvailable = 1 and ChallName like '{name}';"
+            f"SELECT ChallName , ChallAsk , ChallAnswer , ChallPoints , ChallAvailable FROM PedroBase.Chall where ChallAvailable = 1 and ChallName like '{name}';"
         )
         try:
             with self.bot.database.connect() as conn:
@@ -187,11 +187,11 @@ class Challenges(commands.Cog, name="challenges"):
             )
 
             sqlSelectP = text(
-                f"SELECT * FROM PedroBot.Points WHERE (`DiscordUser` = '{context.author.id}') and (`GuildId` = '{context.guild.id}');"
+                f"SELECT * FROM PedroBase.Points WHERE (`DiscordUser` = '{context.author.id}') and (`GuildId` = '{context.guild.id}');"
             )
 
             sqlInsertP = text(
-                f"INSERT INTO `PedroBot`.`Points` (`DiscordUser`, `GuildId`, `PointsAmount`) VALUES ('{context.author.id}', '{context.guild.id}','{CurentChall['ChallPoints']}');"
+                f"INSERT INTO `PedroBase`.`Points` (`DiscordUser`, `GuildId`, `PointsAmount`) VALUES ('{context.author.id}', '{context.guild.id}','{CurentChall['ChallPoints']}');"
             )
             try:
                 with self.bot.database.connect() as conn:
@@ -201,7 +201,7 @@ class Challenges(commands.Cog, name="challenges"):
                             selectResult[0]["PointsAmount"] + CurentChall["ChallPoints"]
                         )
                         sqlUpdateP = text(
-                            f"UPDATE `PedroBot`.`Points` SET `PointsAmount` = '{amount}' WHERE (`DiscordUser` = '{context.author.id}') and (`GuildId` = '{context.guild.id}');"
+                            f"UPDATE `PedroBase`.`Points` SET `PointsAmount` = '{amount}' WHERE (`DiscordUser` = '{context.author.id}') and (`GuildId` = '{context.guild.id}');"
                         )
                         conn.execute(sqlUpdateP)
                         conn.commit()
