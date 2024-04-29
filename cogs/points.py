@@ -16,7 +16,7 @@ class Points(commands.Cog, name="points"):
         context: Context,
         to: discord.User = commands.parameter(default=lambda ctx: ctx.author),
     ) -> None:
-        if "PedroManager" in [r.name for r in context.author.roles]:
+        if "pedromanager" in [r.name for r in context.author.roles]:
             sql = text(
                 f"INSERT INTO `PedroBot`.`Points` (`DiscordUser`, `GuildId`) VALUES ('{to.id}', '{context.guild.id}');"
             )
@@ -81,7 +81,7 @@ class Points(commands.Cog, name="points"):
         amount: int,
         to: discord.User = commands.parameter(default=lambda ctx: ctx.author),
     ) -> None:
-        if "PedroManager" in [r.name for r in context.author.roles]:
+        if "pedromanager" in [r.name for r in context.author.roles]:
             sql = text(
                 f"UPDATE `PedroBot`.`Points` SET `PointsAmount` = '{amount}' WHERE (`DiscordUser` = '{to.id}') and (`GuildId` = '{context.guild.id}');"
             )
@@ -113,7 +113,7 @@ class Points(commands.Cog, name="points"):
         context: Context,
         to: discord.User = commands.parameter(default=lambda ctx: ctx.author),
     ) -> None:
-        if "PedroManager" in [r.name for r in context.author.roles]:
+        if "pedromanager" in [r.name for r in context.author.roles]:
             sql = text(
                 f"DELETE FROM `PedroBot`.`Points` WHERE (`DiscordUser` = '{to.id}') and (`GuildId` = '{context.guild.id}');"
             )

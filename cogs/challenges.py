@@ -12,7 +12,7 @@ class Challenges(commands.Cog, name="challenges"):
     async def createchall(
         self, context: Context, ask: str, response: str, points: int
     ) -> None:
-        if "PedroManager" in [r.name for r in context.author.roles]:
+        if "pedromanager" in [r.name for r in context.author.roles]:
             sql = text(
                 f"INSERT INTO `Pedro`.`Challenge` (`ChallengeAsk`, `ChallengeResponse`, `ChallengePoint`) VALUES ('{ask}', '{response}', '{points}');"
             )
@@ -55,7 +55,7 @@ class Challenges(commands.Cog, name="challenges"):
             await context.send(embed=embed)
             return
 
-        if "PedroManager" not in [r.name for r in context.author.roles]:
+        if "pedromanager" not in [r.name for r in context.author.roles]:
             result = [d for d in result if d["ChallAvailable"] == 1]
 
         embed = discord.Embed(description="item successfully challenge", color=0xBEBEFE)
@@ -64,7 +64,7 @@ class Challenges(commands.Cog, name="challenges"):
         content = [result[i : i + size] for i in range(0, len(result), size)]
         page = max(0, min(len(content) - 1, page))
         for c in content[page]:
-            if "PedroManager" in [r.name for r in context.author.roles]:
+            if "pedromanager" in [r.name for r in context.author.roles]:
                 embed.add_field(
                     name=c["ChallName"],
                     value=f"{c['ChallAsk']}\nPoints: {c['ChallPoints']}\nAnswer: {c['ChallAnswer']} Available: {c['ChallAvailable']}",
@@ -93,7 +93,7 @@ class Challenges(commands.Cog, name="challenges"):
         available: str = "",
     ) -> None:
 
-        if "PedroManager" in [r.name for r in context.author.roles]:
+        if "pedromanager" in [r.name for r in context.author.roles]:
 
             sqlSelect = text(
                 f"SELECT ChallName , ChallAsk , ChallAnswer , ChallPoints , ChallAvailable FROM PedroBot.Chall where ChallAvailable = 1 and ChallName like '{name}';"
@@ -138,7 +138,7 @@ class Challenges(commands.Cog, name="challenges"):
         name="delchall", description="Delete a specific challengechallenge available."
     )
     async def delchall(self, context: Context, name: str) -> None:
-        if "PedroManager" in [r.name for r in context.author.roles]:
+        if "pedromanager" in [r.name for r in context.author.roles]:
             sql = text(
                 f"DELETE FROM `PedroBot`.`Chall` WHERE (`ChallName` = '{name}');"
             )
